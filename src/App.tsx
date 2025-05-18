@@ -1,10 +1,10 @@
-import React from "react";
+//import React from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import LayersIcon from "@mui/icons-material/Layers";
-import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
+import { Box, Typography, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+//import DashboardIcon from "@mui/icons-material/Dashboard";
+//import LayersIcon from "@mui/icons-material/Layers";
+//import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
 import DashboardPage from "./pages/DashboardPage";
 import LayersPage from "./pages/LayersPage";
 import WellsPage from "./pages/WellsPage";
@@ -36,7 +36,7 @@ const MainContent = styled(Box)({
 });
 
 // Компонент навигации
-const NavItem = ({ to, icon, text }: { to: string; icon: React.ReactNode; text: string }) => {
+const NavItem = ({ to, text }: { to: string; text: string }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 
@@ -74,10 +74,10 @@ const App = () => {
             </Typography>
           </Box>
           <List>
-            <NavItem to="/dashboard" icon={<DashboardIcon />} text="Дашборд" />
-            <NavItem to="/layers" icon={<LayersIcon />} text="Пласты" />
-            <NavItem to="/wells" icon={<PrecisionManufacturingIcon />} text="Скважины" />
-            <NavItem to="/operations" icon={<PrecisionManufacturingIcon />} text="ГТМ" />
+            <NavItem to="/dashboard"  text="Дашборд" />
+            <NavItem to="/layers"  text="Пласты" />
+            <NavItem to="/wells"  text="Скважины" />
+            <NavItem to="/operations"  text="ГТМ" />
           </List>
         </MainSidebar>
 

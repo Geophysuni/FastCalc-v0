@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, List, ListItem, ListItemButton, 
-         ListItemText, Paper, ListItemIcon } from "@mui/material";
-import { Folder, FolderSpecial } from "@mui/icons-material";
+         ListItemText, Paper } from "@mui/material";
+//import { Folder, FolderSpecial } from "@mui/icons-material";
 import KeyValueTile from "../components/Tiles/KeyValueTile";
 
 // Стили для внутреннего сайдбара
-const InnerSidebar = styled(Box)(({ theme }) => ({
+const InnerSidebar = styled(Box)(() => ({
   width: "240px",
   height: "100vh", // Занимаем всю высоту
   backgroundColor: "#1976d2",

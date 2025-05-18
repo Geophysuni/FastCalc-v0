@@ -1,5 +1,5 @@
 // импортируем React и MUI (в том числе Box)
-import React, { useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { 
   Box, 
@@ -9,12 +9,12 @@ import {
   ListItemButton, 
   ListItemText, 
   Paper,
-  ListItemIcon 
+  
 } from "@mui/material";
-import { OilBarrel, OilBarrelOutlined } from "@mui/icons-material";
+//import { OilBarrel, OilBarrelOutlined } from "@mui/icons-material";
 import KeyValueTile from "../components/Tiles/KeyValueTile";
 
-const InnerSidebar = styled(Box)(({ theme }) => ({
+const InnerSidebar = styled(Box)(() => ({
   width: "240px",
   height: "100vh",
   backgroundColor: "#1976d2",

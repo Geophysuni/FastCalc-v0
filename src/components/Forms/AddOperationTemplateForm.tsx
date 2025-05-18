@@ -7,8 +7,11 @@ import {
   DialogActions,
   Button,
   TextField,
-  Grid,
+  // Grid,
 } from "@mui/material";
+import Grid from '@mui/material/Grid';
+
+
 
 interface AddOperationTemplateFormProps {
   open: boolean;
@@ -69,23 +72,23 @@ const AddOperationTemplateForm: React.FC<AddOperationTemplateFormProps> = ({
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Добавить ГТМ</DialogTitle>
       <DialogContent>
-        <Grid container spacing={2} mt={1}>
-          <Grid item xs={12}>
+        <Grid container spacing={2} mt={1} component="div">
+          <Grid component="div">
             <TextField label="Название" name="name" fullWidth onChange={handleChange} value={formData.name} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid component="div">
             <TextField label="Длительность" name="duration" fullWidth onChange={handleChange} value={formData.duration} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid>
             <TextField label="Тип скважин" name="wellType" fullWidth onChange={handleChange} value={formData.wellType} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid >
             <TextField label="Увеличение добычи (%)" name="productionIncrease" type="number" fullWidth onChange={handleChange} value={formData.productionIncrease} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid >
             <TextField label="Снижение обводненности (%)" name="watercutReduction" type="number" fullWidth onChange={handleChange} value={formData.watercutReduction} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid >
             <TextField label="Длительность эффекта" name="effectDuration" fullWidth onChange={handleChange} value={formData.effectDuration} />
           </Grid>
         </Grid>
