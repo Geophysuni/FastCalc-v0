@@ -64,7 +64,7 @@ const NavItem = ({ to, text }: { to: string; text: string }) => {
 const App = () => {
   return (
     <AppContainer>
-      <Router>
+      <Router basename="/FastCalc-v0">
         {/* Основной сайдбар */}
         <MainSidebar>
           <Box sx={{ p: 3, borderBottom: "1px solid rgba(255,255,255,0.2)" }}>

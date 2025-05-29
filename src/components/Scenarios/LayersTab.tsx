@@ -10,23 +10,29 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import type { Layer } from "../../pages/ScenarioCreatePage";
-
-const DEFAULT_PROPERTIES = {
-  "Плотность": "",
-  "Толщина": "",
-  "Проницаемость": "",
-};
+import type { Layer, LayerProperties } from "../../pages/ScenarioCreatePage";
 
 interface LayersTabProps {
   layers: Layer[];
   setLayers: React.Dispatch<React.SetStateAction<Layer[]>>;
 }
 
+// Явно определяем ключи свойств слоя
+type LayerPropertyKey = keyof LayerProperties;
+
+const DEFAULT_LAYER_PROPERTIES: LayerProperties = {
+  "Плотность": "",
+  "Толщина": "",
+  "Проницаемость": "",
+  "Пористость":"",
+};
+
 const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
-  const [selectedLayerId, setSelectedLayerId] = useState<number | null>(layers.length > 0 ? layers[0].id : null);
+  const [selectedLayerId, setSelectedLayerId] = useState<number | null>(null);
   const [newLayerName, setNewLayerName] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
+
+  const selectedLayer = layers.find((layer) => layer.id === selectedLayerId);
 
   const handleToggleActive = (id: number) => {
     setLayers((prev) =>
@@ -38,9 +44,8 @@ const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
     setSelectedLayerId(id);
   };
 
-  const selectedLayer = layers.find((layer) => layer.id === selectedLayerId);
-
-  const handlePropertyChange = (key: string, value: string) => {
+  // Типизированная версия обработчика изменений
+  const handlePropertyChange = (key: LayerPropertyKey, value: string) => {
     if (!selectedLayer) return;
 
     setLayers((prev) =>
@@ -65,7 +70,7 @@ const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
       id: Date.now(),
       name: newLayerName.trim(),
       active: false,
-      properties: { ...DEFAULT_PROPERTIES },
+      properties: { ...DEFAULT_LAYER_PROPERTIES },
     };
 
     setLayers((prev) => [...prev, newLayer]);
@@ -74,30 +79,13 @@ const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
     setSelectedLayerId(newLayer.id);
   };
 
-  const handleSaveProperties = () => {
-    alert("Свойства слоя сохранены (мок)");
-  };
-
-  const handleSaveAll = () => {
-    alert("Вся конфигурация слоёв сохранена (мок)");
-  };
-
   return (
     <Box display="flex" gap={3} height="100%">
-      {/* Левый блок - Список слоёв */}
+      {/* Левая панель - список слоев */}
       <Box flexBasis="30%" display="flex" flexDirection="column" height="100%">
         <Typography variant="h6">Слои</Typography>
 
-        <Paper
-          variant="outlined"
-          sx={{
-            flex: 1,
-            overflowY: "auto",
-            maxHeight: 400,
-            p: 1,
-            mt: 1,
-          }}
-        >
+        <Paper sx={{ height: 400, overflow: 'auto', mt: 1 }}>
           <List dense>
             {layers.map((layer) => (
               <ListItemButton
@@ -116,7 +104,6 @@ const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
           </List>
         </Paper>
 
-        {/* Кнопка добавления слоя */}
         {showAddForm ? (
           <Box mt={2}>
             <TextField
@@ -125,56 +112,54 @@ const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
               onChange={(e) => setNewLayerName(e.target.value)}
               fullWidth
               size="small"
+              autoFocus
             />
-            <Button variant="contained" onClick={handleAddLayer} sx={{ mt: 1 }}>
-              Сохранить
-            </Button>
+            <Box display="flex" gap={1} mt={1}>
+              <Button 
+                variant="contained" 
+                onClick={handleAddLayer}
+                disabled={!newLayerName.trim()}
+              >
+                Добавить
+              </Button>
+              <Button 
+                variant="outlined" 
+                onClick={() => setShowAddForm(false)}
+              >
+                Отмена
+              </Button>
+            </Box>
           </Box>
         ) : (
-          <Button variant="outlined" onClick={() => setShowAddForm(true)} sx={{ mt: 2 }}>
+          <Button
+            variant="outlined"
+            onClick={() => setShowAddForm(true)}
+            sx={{ mt: 2 }}
+            fullWidth
+          >
             Добавить слой
           </Button>
         )}
-
-        {/* Кнопка сохранения конфигурации (теперь под кнопкой добавления) */}
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleSaveAll}
-          sx={{ mt: 2, width: '100%' }}  // mt={2} добавляет отступ сверху
-        >
-          Сохранить конфигурацию слоёв и перейти к скважинам
-        </Button>
       </Box>
 
-      {/* Правый блок - Свойства выбранного слоя */}
-      <Box flexBasis="70%" display="flex" flexDirection="column" height="100%">
+      {/* Правая панель - свойства слоя */}
+      <Box flexBasis="70%">
         <Typography variant="h6">Свойства слоя</Typography>
-
+        
         {selectedLayer ? (
-          <>
-            <Box flex={1} mt={2}>
-              {Object.entries(DEFAULT_PROPERTIES).map(([key]) => (
-                <Box key={key} display="flex" alignItems="center" mb={2} gap={2}>
-                  <Typography sx={{ minWidth: "150px" }}>{key}</Typography>
-                  <TextField
-                    value={selectedLayer.properties?.[key] ?? ""}
-                    onChange={(e) => handlePropertyChange(key, e.target.value)}
-                    size="small"
-                    fullWidth
-                  />
-                </Box>
-              ))}
-              {/* Кнопка сохранения параметров слоя (в правой части) */}
-              <Box display="flex" justifyContent="flex-end" mt="auto">
-                <Button variant="contained" onClick={handleSaveProperties}>
-                  Сохранить параметры слоя
-                </Button>
+          <Paper sx={{ p: 2, mt: 1 }}>
+            {(Object.keys(DEFAULT_LAYER_PROPERTIES) as LayerPropertyKey[]).map((key) => (
+              <Box key={key} display="flex" alignItems="center" mb={2} gap={2}>
+                <Typography sx={{ minWidth: "150px" }}>{key}</Typography>
+                <TextField
+                  value={selectedLayer.properties[key] || ""}
+                  onChange={(e) => handlePropertyChange(key, e.target.value)}
+                  size="small"
+                  fullWidth
+                />
               </Box>
-            </Box>
-
-            
-          </>
+            ))}
+          </Paper>
         ) : (
           <Typography mt={2}>Выберите слой для редактирования</Typography>
         )}
@@ -182,4 +167,5 @@ const LayersTab: React.FC<LayersTabProps> = ({ layers, setLayers }) => {
     </Box>
   );
 };
+
 export default LayersTab;
