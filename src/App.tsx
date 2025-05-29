@@ -2,13 +2,12 @@
 import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-//import DashboardIcon from "@mui/icons-material/Dashboard";
-//import LayersIcon from "@mui/icons-material/Layers";
-//import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
 import DashboardPage from "./pages/DashboardPage";
 import LayersPage from "./pages/LayersPage";
 import WellsPage from "./pages/WellsPage";
 import OperationsPage from "./pages/OperationsPage";
+import ScenarioPage from "./pages/ScenarioPage";
+import ScenarioCreatePage from "./pages/ScenarioCreatePage";
 
 // Основной контейнер с белым фоном
 const AppContainer = styled(Box)({
@@ -78,6 +77,7 @@ const App = () => {
             <NavItem to="/layers"  text="Пласты" />
             <NavItem to="/wells"  text="Скважины" />
             <NavItem to="/operations"  text="ГТМ" />
+            <NavItem to="/scenarios"  text="Сценарии" />
           </List>
         </MainSidebar>
 
@@ -89,6 +89,8 @@ const App = () => {
             <Route path="/layers" element={<LayersPage />} />
             <Route path="/wells" element={<WellsPage />} />
             <Route path="/operations" element={<OperationsPage />} />
+            <Route path="/scenarios" element={<ScenarioPage />} />
+            <Route path="/scenarios/create" element={<ScenarioCreatePage />} />
           </Routes>
         </MainContent>
       </Router>
