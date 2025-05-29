@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import ActionButton from "../components/common/ActionButton";
 import ScenarioSummary from "../components/Scenarios/ScenarioSummary";

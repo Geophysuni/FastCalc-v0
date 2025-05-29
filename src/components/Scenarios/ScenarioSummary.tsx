@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Paper, Button, Stack } from "@mui/material";
+import { Typography, Paper, Button, Stack } from "@mui/material";
 
 interface ScenarioSummaryProps {
   name: string;
